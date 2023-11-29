@@ -17,7 +17,7 @@ function App() {
     checkbox2: false,
   });
   const [display, setDisplay] = useState("");
-
+  
   // const handleSubmit = async () => {
   //   const response = await api
   //     .asApp()
@@ -126,7 +126,7 @@ function App() {
           name="controlled-checkbox"
         /> */}
 
-        <div>{newData ? newData : 'Loading...'}</div>
+        <div>{newData ? JSON.stringify(newData) : 'Loading...'}</div>
       </ScrollContainer>
     </Card>
   );

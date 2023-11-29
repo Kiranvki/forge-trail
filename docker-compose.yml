@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  jiraissuepanelcustomui:
+    image: jiraissuepanelcustomui
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: developement    
+    ports:
+      - 3000:3000
