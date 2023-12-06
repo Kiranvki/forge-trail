@@ -1,64 +1,103 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React, { useEffect, useState, Fragment, forwardRef } from "react";
 import { events, invoke, view, requestJira } from "@forge/bridge";
 import Button, { ButtonGroup } from "@atlaskit/button";
 import api, { asApp, route } from "@forge/api";
 import { Checkbox } from "@atlaskit/checkbox";
-import { authorize, asUser } from "@forge/api";
+import { authorize, asUser, storage } from "@forge/api";
+import DropdownMenu, { DropdownItem, DropdownItemGroup } from '@atlaskit/dropdown-menu';
+import TextArea from '@atlaskit/textarea';
+import { Grid, Box, Stack, Text } from '@atlaskit/primitives';
+import { Label } from "@atlaskit/form";
+import { AsyncSelect, OptionsType, CreatableSelect } from '@atlaskit/select';
+import Heading from '@atlaskit/heading';
 
+//Json Imports
+// import Master from './Utility/MasterJson.json'
+import Master from './Utility/app-config.json'
+
+// import { issueResolver } from "../../../src";
 //styled components
+import { Card, ScrollContainer, Row, Form } from "./Style";
 
-import { Card, ScrollContainer, Row } from "./Style";
 
 function App() {
-  const [data, setData] = useState("");
-  const [newData, setNewData] = useState("");
   const [checkboxStates, setCheckboxStates] = useState({
     checkbox1: false,
     checkbox2: false,
   });
-  const [display, setDisplay] = useState("");
+  const [checkboxDropdownValues, setCheckboxDropdownValues] = useState({});
+  const [dataReading, setDataReading] = useState("Yes")
+  const [workProduct, setWorkProduct] = useState([]);
+  const [isLoading, setIsLoading] = useState(true)
+  const [value, setValue] = useState("SW Code")
 
-  // const handleSubmit = async () => {
-  //   const response = await api
-  //     .asApp()
-  //     .requestJira(route`/rest/api/2/issue/TES-1/transitions`);
-  //   console.log("kiran", await response.text());
-  // };
 
-  // console.log(`Number of comments on this issue: ${comments.length}`);
-
-  // const fetchCommentsForIssue = async (issueIdOrKey) => {
-  //   const res = await api
-  //     .asUser()
-  //     .requestJira(route`/rest/api/3/issue/${issueIdOrKey}/comment`);
-
-  //   const data = await res.json();
-  //   return data.comments;
-
-  const getContext = async () => {
-    const context = await view.getContext();
-    setData(context.extension.issue.id);
-    console.log("context", context.extension.issue.key);
-    // return context;
-  };
-
-  const onChange = (checkboxName) => (e) => {
+  //Function for handling checkbox
+  const onChange = (checkboxName) => async (e) => {
     setCheckboxStates({
       ...checkboxStates,
       [checkboxName]: e.target.checked,
     });
-
-    // If you need to save the checked state in localStorage
     localStorage.setItem(`value${checkboxName}`, e.target.checked);
   };
 
+  //Function for handling Dropdownvalue
+  const handleDropdownSelection = (checkboxName, selectedValue) => {
+    console.log(`Checkbox ${checkboxName} selected value: ${selectedValue}`);
+    setDataReading(selectedValue)
+    setCheckboxDropdownValues({
+      ...checkboxDropdownValues,
+      [checkboxName]: selectedValue,
+    });
+  };
+
+  const fetchData = async () => {
+    try {
+      const context = await view.getContext();
+      const issueTypeId = context.extension.issue.typeId;
+      const projectKey = context.extension.project.key;
+
+      const response = await invoke('fetch-workProductType', { issueTypeId, projectKey });
+      setIsLoading(true)
+      if (response) {
+        await filterOptions(response.jiraResponse)
+        setIsLoading(false)
+      }
+    } catch (err) {
+      console.log('Error fetching data:', err);
+    }
+  };
+
+  const filterOptions = async (response) => {
+    try {
+      const options = response.map((product) => ({
+        label: product.value,
+        value: product.id,
+      }));
+      setWorkProduct(options); // Set the options in the workProduct state
+      return options; // Return the options
+    } catch (error) {
+      console.error('Error filtering options:', error);
+      return [];
+    }
+  };
+
+  const handleSelect = (selectedOption) => {
+    if (selectedOption && selectedOption.label) {
+      const selectedValue = selectedOption.label;
+      console.log(`selected value: ${selectedValue}`);
+      setValue(selectedValue);
+    } else {
+      console.log('No valid selection');
+      setValue(""); // Set the value to an empty string or handle it as needed
+    }
+  };
+
+
+
   useEffect(() => {
-    getContext();
-    // handleSubmit();
-    invoke('fetch-total').then((res)=>{
-      console.log('fetc', res) 
-      setNewData(res)
-    })
+    //calling FetchData Functions
+    fetchData()
     const storedCheckboxStates = JSON.parse(
       localStorage.getItem("checkboxStates") || "{}"
     );
@@ -69,66 +108,150 @@ function App() {
     localStorage.setItem("checkboxStates", JSON.stringify(checkboxStates));
   }, [checkboxStates]);
 
-  const checklistData = [
-    "Raising PR Defects, Defect-B or Defect-C or",
-    "Directly in the work product (e.g. comments option in documents) or",
-    "In the review feature of the tool (e.g. DNG)",
-    "In the Issue Form (Doc No: 3034)",
-  ];
 
-  // const Rows = () => {
-  //   <Fragment>
-  //     {checklistData.map((item) => {
-  //       return (
-  //         // console.log('item', item)
-  //         <div>
-  //           <span>{item}</span>
-  //         </div>
+  // const masterDataReading = () => {
+  //   console.log('value', value)
+  //   if (value === "") {
+  //     return []
+  //   } else if (value === "SW Code") {
+  //     return Master.checklist["SW Code"]
+  //   } else if (value === "Sys Requirement Spec") {
+  //     return Master.checklist["Sys Requirement Spec"]
+  //   } else if (value === "SW High Level Design") {
+  //     return Master.checklist["SW High Level Design"]
+  //   } else if (value === "SW Detailed Design") {
+  //     return Master.checklist["SW Detailed Design"]
+  //   } else if (value === "SW Unit Test Spec") {
+  //     return Master.checklist["SW Unit Test Spec"]
+  //   } else if (value === "SW Integration Test Spec") {
+  //     return Master.checklist["SW Integration Test Spec"]
+  //   } else if (value === "SW Functional Test Spec") {
+  //     return Master.checklist["SW Functional Test Spec"]
+  //   } else if (value === "Sys Requirement Spec") {
+  //     return Master.checklist["Sys Requirement Spec"]
+  //   } else {
+  //     return []
+  //   }
+  // }
 
-  //         // <Row>
-  //         //   {/* <Checkbox
-  //         //     isChecked={checkboxStates.checkbox1}
-  //         //     label={item}
-  //         //     name={item}
-  //         //     onChange={onChange("checkbox1")}
-  //         //   /> */}
-  //         //   <span>{item}</span>
-  //         // </Row>
-  //       );
-  //     })}
-  //   </Fragment>;
-  // };
+  const masterDataReading = () => {
+    if (value === "") {
+      return [];
+    }
+
+    const selectedChecklist = Master.checklist[value];
+
+    if (!selectedChecklist) {
+      return [];
+    }
+
+    return selectedChecklist.topics.map((topic) => ({
+      topic: topic.topic,
+      result: selectedChecklist.result,
+    }));
+  };
+
+
+
 
   return (
     <Card>
-      <ScrollContainer>
-        {/* <Rows /> */}
-        {checklistData.map((item, index) => (
-          <Row key={index}>
-            <Checkbox
-              isChecked={checkboxStates[`checkbox${index + 1}`]}
-              onChange={onChange(`checkbox${index + 1}`)}
-              label={item}
-              name={`checkbox${index + 1}`}
-            />
-          </Row>
-        ))}
-        {/* <Checkbox
-          isChecked={checkboxStates.checkbox1}
-          onChange={onChange("checkbox1")}
-          label={`Review Checklist`}
-          name="controlled-checkbox"
-        />
-        <Checkbox
-          isChecked={checkboxStates.checkbox2}
-          onChange={onChange("checkbox2")}
-          label={`Review Checklist2`}
-          name="controlled-checkbox"
-        /> */}
+      {/* //style={{display:dataReading==""?"none":"flex"}} */}
+      <Stack space="space.400">
+        <Box padding="space.200">
+          <Grid
+            testId="grid-basic"
+            rowGap="space.200"
+            columnGap="space.200"
+            templateColumns="150px 2fr"
+            alignItems="center"
+            justifyContent="space-between"
+          >
+            <Box>
+              {/* <Text variant="body" as="strong">
+                Work Product Type
+              </Text> */}
+              <h2 style={{ verticalAlign: "bottom", display: "inline-flex", lineHeight: 2.3, fontSize: "0.85714em", fontWeight: 600 }}>Work Product Type</h2>
+            </Box>
+            <Box>
+              <CreatableSelect
+                isClearable
+                isDisabled={isLoading}
+                isLoading={isLoading}
+                onChange={handleSelect}
+                // onCreateOption={this.handleCreate}
+                options={workProduct}
+              // value={value}
+              />
 
-        <div>{newData ? newData : 'Loading...'}</div>
-      </ScrollContainer>
-    </Card>
+            </Box>
+          </Grid>
+        </Box>
+        <Box>
+          {masterDataReading().map((item, index) => (
+            <Fragment>
+              <Row key={index} >
+                <Grid
+                  testId="grid-basic"
+                  rowGap="space.200"
+                  columnGap="space.200"
+                  templateColumns="1fr 100px 1fr"
+                  alignItems="center"
+                >
+                  <Box>
+                    <Checkbox
+                      isChecked={checkboxStates[`checkbox${index + 1}`]}
+                      onChange={onChange(`checkbox${index + 1}`)}
+                      label={item.topic}
+                      name={`checkbox${index + 1}`}
+                    />
+                  </Box>
+                  <Box>
+                    <DropdownMenu trigger={
+                      checkboxDropdownValues[`checkbox${index + 1}`]
+                        ? checkboxDropdownValues[`checkbox${index + 1}`]
+                        : "Result"
+                    } >
+                      <DropdownItemGroup>
+                        {item.result.map((newVal, resultIndex) => (
+                          <DropdownItem
+                            key={resultIndex}
+                            isSelected={checkboxDropdownValues[`checkbox${index + 1}`]}
+                            onClick={() =>
+                              handleDropdownSelection(
+                                `checkbox${index + 1}`,
+                                `${newVal.name}`
+                              )
+                            }
+                          >
+                            {newVal.name}
+                          </DropdownItem>
+                        ))}
+                        {/* <DropdownItem isSelected={checkboxDropdownValues[`checkbox${index + 1}`]} onClick={() => handleDropdownSelection(`checkbox${index + 1}`, `${"Yes"}`)}>Yes</DropdownItem>
+                        <DropdownItem isSelected={checkboxDropdownValues[`checkbox${index + 1}`]} onClick={() => handleDropdownSelection(`checkbox${index + 1}`, `${"No"}`)} >No</DropdownItem>
+                        <DropdownItem isSelected={checkboxDropdownValues[`checkbox${index + 1}`]} onClick={() => handleDropdownSelection(`checkbox${index + 1}`, `${"Unassiagned"}`)}>Unassiagned</DropdownItem> */}
+                      </DropdownItemGroup>
+                    </DropdownMenu>
+                  </Box>
+                  <Box>
+                    <Form >
+                      <TextArea
+                        style={{ minHeight: "40px" }}
+                        placeholder="Add a comment..."
+                        id="area"
+                        resize="auto"
+                        maxHeight="5vh"
+                        name="area"
+                      />
+                    </Form>
+                  </Box>
+                </Grid>
+              </Row>
+            </Fragment>
+          ))}
+        </Box>
+      </Stack>
+    </Card >
   );
 }
 

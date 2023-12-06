@@ -1,0 +1,286 @@
+{
+    "checklist": {
+        "SW Code": {
+            "result": [
+                {
+                    "id": 1,
+                    "name": "N/A"
+                },
+                {
+                    "id": 2,
+                    "name": "Yes"
+                },
+                {
+                    "id": 3,
+                    "name": "No"
+                }
+            ],
+            "topics": [
+                {
+                    "id": 1,
+                    "topic": "CLSWC1-Was the completed code review checklist attached in the links tab of this work item (Vistway or Tailored)?"
+                },
+                {
+                    "id": 2,
+                    "topic": "CLSWC2-Names/structure in the SW code are identical with the names/structure of design elements. (e.g. SW components, atomic testable units, functions)?"
+                },
+                {
+                    "id": 3,
+                    "topic": "CLSWC3-Unresolved compiler warnings and static analysis issues (MISRA and/or Coverity native checkers) have been assessed for risks?"
+                }
+            ]
+        },
+        "Sys Requirement Spec": {
+            "result": [
+                {
+                    "id": 1,
+                    "name": "N/A"
+                },
+                {
+                    "id": 2,
+                    "name": "Yes"
+                },
+                {
+                    "id": 3,
+                    "name": "No"
+                }
+            ],
+            "topics": [
+                {
+                    "id": 1,
+                    "topic": "CLSWR1-Was the completed requirements review checklist (product family specific checks & lessons learned) attached in the links tab of this work item (Vistway or Tailored)?"
+                },
+                {
+                    "id": 2,
+                    "topic": "CLSWR2-Software requirements meet system requirements (functional & non-functional and application parameters) and system architecture?"
+                },
+                {
+                    "id": 3,
+                    "topic": "CLSWR3-Software requirement is feasible for implementation?"
+                },
+                {
+                    "id": 4,
+                    "topic": "CLSWR4-All the related requirements (which are dependent upon the requirements under review) have been considered for impact (e.g. technical risk, conflicting requirements)?"
+                },
+                {
+                    "id": 5,
+                    "topic": "CLSWR5-Software requirements are testable, with associated verification type and verification criteria identified?"
+                },
+                {
+                    "id": 6,
+                    "topic": "CLSWR6-Effects to the operating environment (e.g. memory, CPU/GPU load and operating system) have been considered for design decisions?"
+                },
+                {
+                    "id": 7,
+                    "topic": "CLSWR7-Have all software requirements under review been linked to the relevant systems requirements (upstream traceability)?"
+                },
+                {
+                    "id": 8,
+                    "topic": "CLSWR8-Have all software requirements under review have been linked to the relevant system architectural elements (as applicable)?"
+                },
+                {
+                    "id": 9,
+                    "topic": "CLSWR9-Are all established links correct?"
+                }
+            ]
+        },
+        "SW High Level Design": {
+            "result": [
+                {
+                    "id": 1,
+                    "name": "N/A"
+                },
+                {
+                    "id": 2,
+                    "name": "Yes"
+                },
+                {
+                    "id": 3,
+                    "name": "No"
+                }
+            ],
+            "topics": [
+                {
+                    "id": 1,
+                    "topic": "CLSWHLD1-Was the completed HLD review checklist (product family specific checks & lessons learned) attached in the links tab of this work item (Vistway or Tailored)?"
+                },
+                {
+                    "id": 2,
+                    "topic": "CLSWHLD2-The HLD definition (including interfaces & dynamic behavior) meets the related software requirements (both functional & non-functional)?"
+                },
+                {
+                    "id": 3,
+                    "topic": "CLSWHLD3-All software requirements under review have been linked to relevant software components?"
+                },
+                {
+                    "id": 4,
+                    "topic": "CLSWHLD4-All the established links are correct?"
+                },
+                {
+                    "id": 5,
+                    "topic": "CLSWHLD5-Resource consumption objectives (CPU, Memory) are defined for all components?"
+                }
+            ]
+        },
+        "SW Detailed Design": {
+            "result": [
+                {
+                    "id": 1,
+                    "name": "N/A"
+                },
+                {
+                    "id": 2,
+                    "name": "Yes"
+                },
+                {
+                    "id": 3,
+                    "name": "No"
+                }
+            ],
+            "topics": [
+                {
+                    "id": 1,
+                    "topic": "CLSWDD1-Was the completed DD review checklist attached in the links tab of this work item (Vistway or Tailored)?"
+                },
+                {
+                    "id": 2,
+                    "topic": "CLSWDD2-The detailed design definition (including interfaces, dynamic behavior and interaction between sw components or units) meets the related HLD definition?"
+                },
+                {
+                    "id": 3,
+                    "topic": "CLSWDD3-The defined interfaces of SW components (or ATUs) are capable exchanging and using data across Visteon or Third party components, across defined communication layers, or in multi-µControllers?"
+                },
+                {
+                    "id": 4,
+                    "topic": "CLSWDD4-Criticality has been considered in terms of timing constraints and system impact (especially for safety and security concerning sw components)?"
+                },
+                {
+                    "id": 5,
+                    "topic": "CLSWDD5-SW components (including ATUs) are capable of being tested against design and requirements by simulating required test scenarios?"
+                },
+                {
+                    "id": 6,
+                    "topic": "CLSWDD6-Simplification has been considered by minimizing technical complexity, in meeting architecturally significant requirements by considering: no. of interfaces required, no. design elements required, ease of evolution, ease of modifications?"
+                },
+                {
+                    "id": 7,
+                    "topic": "CLSWDD7-Risks have been identified from the perspective of design not fulfilling expectations at runtime; risks are analyzed and mitigated by including appropriate design considerations?"
+                },
+                {
+                    "id": 8,
+                    "topic": "CLSWDD8-All software requirements under review have been linked to the relevant atomic testable units?"
+                },
+                {
+                    "id": 9,
+                    "topic": "CLSWDD9-All established links are correct?"
+                },
+                {
+                    "id": 10,
+                    "topic": "CLSWDD10-All software detailed desgin have been linked to software architectural design (high level design)?"
+                }
+            ]
+        },
+        "SW Unit Test Spec": {
+            "result": [
+                {
+                    "id": 1,
+                    "name": "N/A"
+                },
+                {
+                    "id": 2,
+                    "name": "Yes"
+                },
+                {
+                    "id": 3,
+                    "name": "No"
+                }
+            ],
+            "topics": [
+                {
+                    "id": 1,
+                    "topic": "CLSWUTP1-Was the completed unit test spec. review checklist attached in the links tab of this work item (Vistway or Tailored)?"
+                },
+                {
+                    "id": 2,
+                    "topic": "CLSWUTP2-Test cases cover all functions & dynamic behavior under review described in the detailed design correctly with adequate test coverage?"
+                },
+                {
+                    "id": 3,
+                    "topic": "CLSWUTP3-All functions & dynamic behavior described in the detailed design under review are linked to relevant test cases?"
+                },
+                {
+                    "id": 4,
+                    "topic": "CLSWUTP4-All the established links are correct?"
+                }
+            ]
+        },
+        "SW Integration Test Spec": {
+            "result": [
+                {
+                    "id": 1,
+                    "name": "N/A"
+                },
+                {
+                    "id": 2,
+                    "name": "Yes"
+                },
+                {
+                    "id": 3,
+                    "name": "No"
+                }
+            ],
+            "topics": [
+                {
+                    "id": 1,
+                    "topic": "CLSWITP1-Was the completed integration test spec. review checklist (product family specific checks & lessons learned) attached in the links tab of this work item (Vistway or Tailored)?"
+                },
+                {
+                    "id": 2,
+                    "topic": "CLSWITP2-Test cases cover all interfaces & dynamic behavior under review described in the high level design correctly with adequate test coverage?"
+                },
+                {
+                    "id": 3,
+                    "topic": "CLSWITP3-All interfaces & dynamic behavior under review described in the high level design are linked to relevant test cases?"
+                },
+                {
+                    "id": 4,
+                    "topic": "CLSWITP4-All the established links are correct?"
+                }
+            ]
+        },
+        "SW Functional Test Spec": {
+            "result": [
+                {
+                    "id": 1,
+                    "name": "N/A"
+                },
+                {
+                    "id": 2,
+                    "name": "Yes"
+                },
+                {
+                    "id": 3,
+                    "name": "No"
+                }
+            ],
+            "topics": [
+                {
+                    "id": 1,
+                    "topic": "CLSWFTP1-Was the completed functional test spec. review checklist (product family specific checks & lessons learned) attached in the links tab of this work item (Vistway or Tailored)?"
+                },
+                {
+                    "id": 2,
+                    "topic": "CLSWFTP2-Test cases cover all software requirements under review correctly with adequate test coverage and consideration of verification criteria?"
+                },
+                {
+                    "id": 3,
+                    "topic": "CLSWFTP3-All software requirements under review are linked to relevant test cases?"
+                },
+                {
+                    "id": 4,
+                    "topic": "CLSWFTP4-All the established links are correct?"
+                }
+            ]
+        }
+    }
+}

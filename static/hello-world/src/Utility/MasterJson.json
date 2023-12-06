@@ -1,0 +1,12 @@
+{
+    "sw-requirement": [
+      "The (new) code meets the requirements of the High Level Design (HLD) and the Software Detailed Design.",
+      "The software timers are set to the correct value before the software timers are tested for expiration. If specific bit comparison is required, respective bit should be compared instead of TRUE Boolean.",
+      "Kernel Software Timer is used as per the Timer Usage General Guidelines: in the Kernel Programmers Guide.",
+      "The variables shared between the interrupts and the tasks (AND Bootloader and Application) have protected access."
+    ],
+    "sw-requirement-1": [
+        "lorem epsom kiran hjkbvjklhgvghjkhgvbjkbvnjhbv bhjgvcghgfcxghvchjgvchjgv cxfgcxvghvbnb bv cvgfcffcfygfcghvhgvbhv"
+    ]
+   
+  }
